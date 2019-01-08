@@ -33,7 +33,7 @@ function getPoints(){
             dataType:'json',
             contentType:'application/json',
             success: function(response){
-                addMarkerToMap(response.features[0]);
+                addMarkerToMap(response.features);
             },
             error:function(error){
                 console.log(error);
@@ -44,6 +44,7 @@ function getPoints(){
 }
 
 function getPolygons(){
+    console.log(selectedTypes['Polygon'][0]);
     for(var i=0; i< selectedTypes['Polygon'].length; i++){
         $.ajax({
             url: 'http://localhost/01-Escola/IS/IS_OccurrencesRegister/php/getInformation.php?action='+selectedTypes['Polygon'][i],
@@ -51,7 +52,7 @@ function getPolygons(){
             dataType:'json',
             contentType:'application/json',
             success: function(response){
-                console.log(response.features[0]);
+                addPolygonToMap(response.features);
             },
             error:function(error){
                 console.log(error);
@@ -60,27 +61,40 @@ function getPolygons(){
     }
 }
 
+function getTypeOccurrence(type){
+    switch(type){
+        case 1:
+        return 'Holes'
+        case 2:
+        return 'Lights';
+        case 3: 
+        return 'DeadBodies';
+        case 4:
+        return 'Inundation';
+        case 5:
+        return 'Garbage';
+    }
+}
+
 function createPopup(data){
-    
-    `<table style="width:100%">
-    <tr>
-      <th>Firstname</th>
-      <th>Lastname</th> 
-      <th>Age</th>
-    </tr>
-    <tr>
-      <td>Jill</td>
-      <td>Smith</td> 
-      <td>50</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td> 
-      <td>94</td>
-    </tr>
-  </table>`
+    var type = getTypeOccurrence(data.properties.type);
+    return `<table><tr><td colspan="2" ><img src="./uploadPhotos/lixo.jpg" width="100%"></td></tr><tr><td>Date</td><td>${data.properties.date}</td></tr><tr><td>Description</td><td>${data.properties.name}</td></tr><tr><td>Type</td><td>${type}</td></tr></table>`
 }
 
 function addMarkerToMap(data){
-    var marker = L.marker([data.geometry.coordinates[1], data.geometry.coordinates[0]]).addTo(map); 
+    console.log(data);
+    for(var i=0; i<data.length; i++){
+        var customPopup = createPopup(data[i]);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
+        L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]]).bindPopup(customPopup,customOptions).addTo(map); 
+    }
+}
+
+function addPolygonToMap(data){
+    console.log(data);
+    for(var i=0; i<data.length; i++){
+        var customPopup = createPopup(data[i]);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
+         L.geoJSON(data).bindPopup(customPopup,customOptions).addTo(map);
+    }
 }

@@ -44,11 +44,23 @@ INSERT INTO public.occurrences_point(
 	 name, type, date, point)
 	VALUES ( 'teste' ,1, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.806156,41.725398),4326));
 
+	
+
+	INSERT INTO public.occurrences_point(
+	 name, type, date, point)
+	VALUES ( 'teste' ,2, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.847596 ,41.695263),4326));
+
 
 INSERT INTO public.occurrences_polygon(
 	 name, type, date, geometry)
 	VALUES ('teste', 1, statement_timestamp(),
 			ST_GeomFromText('POLYGON((-8.8467231 41.6939205 ,-8.842169 41.698922,-8.844864 41.700355, -8.848583 41.695555,-8.8467231 41.6939205))', 4326));
+
+INSERT INTO public.occurrences_polygon(
+	 name, type, date, geometry)
+	VALUES ('teste', 2, statement_timestamp(),
+			ST_GeomFromText('POLYGON((-8.847596 41.695263 ,-8.846706 41.695327,-8.844864 41.694878, -8.848583 41.695555,-8.846121 41.693953, -8.847596 41.695263))', 4326));
+
 /****** ----------------------------- */
 
 SELECT id, name, type, point, date
