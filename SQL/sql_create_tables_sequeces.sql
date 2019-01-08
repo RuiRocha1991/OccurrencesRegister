@@ -17,8 +17,9 @@ create sequence public.sq_occurrence_point
 CREATE TABLE public.occurrences_point
 (
     id numeric NOT NULL DEFAULT nextval('sq_occurrence_point'::regclass),
-    name character(100) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(80),
     type numeric(2,0) NOT NULL,
+	date timestamp,
     point geometry NOT NULL,
     CONSTRAINT occurrences_point_pkey PRIMARY KEY (id)
 )
