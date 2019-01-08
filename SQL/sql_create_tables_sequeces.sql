@@ -16,7 +16,7 @@ create sequence public.sq_occurrence_point
 
 CREATE TABLE public.occurrences_point
 (
-    id numeric NOT NULL,
+    id numeric NOT NULL DEFAULT nextval('sq_occurrence_point'::regclass),
     name character(100) COLLATE pg_catalog."default" NOT NULL,
     type numeric(2,0) NOT NULL,
     point geometry NOT NULL,
@@ -28,24 +28,26 @@ alter COLUMN point type geometry(Point, 4326);
 
 CREATE TABLE public.occurrences_polygon
 (
-    id numeric NOT NULL,
-    name character(100) COLLATE pg_catalog."default" NOT NULL,
-    type numeric(2,0) NOT NULL,
-    polygon geometry NOT NULL,
-    CONSTRAINT occurrences_polygon_pkey PRIMARY KEY (id)
+  id integer NOT NULL DEFAULT nextval('sq_occurrence_polygon'::regclass),
+  name character varying(80),
+  type integer,
+  date timestamp,
+  geometry geometry(Polygon,4326),
+  CONSTRAINT key_occurrences_polygon PRIMARY KEY (id)
 )
+
 
 ---- *************************************************************************------
 
 INSERT INTO public.occurrences_point(
-	id, name, type, date, point)
-	VALUES (nextval('sq_occurrence_point'), 'teste' ,1, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.806156,41.725398),4326));
+	 name, type, date, point)
+	VALUES ( 'teste' ,1, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.806156,41.725398),4326));
 
 
 INSERT INTO public.occurrences_polygon(
-	id, name, type, date, polygon)
-	VALUES (nextval('sq_occurrence_polygon'),'teste', 1, statement_timestamp(),
-			ST_GeomFromText('MULTIPOLYGON(((-8.8467231 41.6939205 ,-8.842169 41.698922,-8.844864 41.700355, -8.848583 41.695555,-8.8467231 41.6939205)))', 4326));
+	 name, type, date, geometry)
+	VALUES ('teste', 1, statement_timestamp(),
+			ST_GeomFromText('POLYGON((-8.8467231 41.6939205 ,-8.842169 41.698922,-8.844864 41.700355, -8.848583 41.695555,-8.8467231 41.6939205))', 4326));
 /****** ----------------------------- */
 
 SELECT id, name, type, point, date
@@ -54,3 +56,17 @@ SELECT id, name, type, point, date
 SELECT id, name, type, date, polygon
 	FROM public.occurrences_polygon;
 
+
+
+	codigo para filtrar no geoserver
+
+	type like 1
+
+
+types{
+	Holes : 1,
+	Lights: 2,
+	DeadBodies:3,
+	inundation:4,
+	garbage:5,
+}
