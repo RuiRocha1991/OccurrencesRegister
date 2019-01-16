@@ -10,10 +10,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const path = require('path');
-app.use(express.static(path.resolve(__dirname, 'static')));
-app.get('/', function(){
-    res.sendFile('index.html');
-})
 
 
 
@@ -25,7 +21,10 @@ app.use(function(req, res, next){
 })
 
 
-
+app.use(express.static(path.resolve(__dirname, 'static')));
+app.get('/', function(){
+    res.sendFile('index.html');
+})
 
 app.use('/points',pointsRouter);
 app.use('/polygons',polygonsRouter);
