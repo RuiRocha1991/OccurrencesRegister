@@ -1,12 +1,12 @@
 -- sequences
-create sequence public.sq_occurrence_polygon
+create sequence sq_occurrence_polygon
 	increment 1
 	minvalue 1
 	maxvalue 9999999999999999
 	start 1
 	cache 1;
 
-create sequence public.sq_occurrence_point
+create sequence sq_occurrence_point
 	increment 1
 	minvalue 1
 	maxvalue 9999999999999999
@@ -14,7 +14,7 @@ create sequence public.sq_occurrence_point
 	cache 1;
 
 
-CREATE TABLE public.occurrences_point
+CREATE TABLE occurrences_point
 (
     id numeric NOT NULL DEFAULT nextval('sq_occurrence_point'::regclass),
     name character varying(80),
@@ -27,7 +27,7 @@ alter table occurrences_point
 alter COLUMN point type geometry(Point, 4326);
 
 
-CREATE TABLE public.occurrences_polygon
+CREATE TABLE occurrences_polygon
 (
   id integer NOT NULL DEFAULT nextval('sq_occurrence_polygon'::regclass),
   name character varying(80),
@@ -40,23 +40,23 @@ CREATE TABLE public.occurrences_polygon
 
 ---- *************************************************************************------
 
-INSERT INTO public.occurrences_point(
+INSERT INTO occurrences_point(
 	 name, type, date, point)
 	VALUES ( 'teste' ,1, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.806156,41.725398),4326));
 
 	
 
-	INSERT INTO public.occurrences_point(
+	INSERT INTO occurrences_point(
 	 name, type, date, point)
 	VALUES ( 'teste' ,2, statement_timestamp(),ST_SetSRID(ST_MakePoint(-8.847596 ,41.695263),4326));
 
 
-INSERT INTO public.occurrences_polygon(
+INSERT INTO occurrences_polygon(
 	 name, type, date, geometry)
 	VALUES ('teste', 1, statement_timestamp(),
 			ST_GeomFromText('POLYGON((-8.8467231 41.6939205 ,-8.842169 41.698922,-8.844864 41.700355, -8.848583 41.695555,-8.8467231 41.6939205))', 4326));
 
-INSERT INTO public.occurrences_polygon(
+INSERT INTO occurrences_polygon(
 	 name, type, date, geometry)
 	VALUES ('teste', 2, statement_timestamp(),
 			ST_GeomFromText('POLYGON((-8.847596 41.695263 ,-8.846706 41.695327,-8.844864 41.694878, -8.848583 41.695555,-8.846121 41.693953, -8.847596 41.695263))', 4326));
@@ -64,22 +64,15 @@ INSERT INTO public.occurrences_polygon(
 /****** ----------------------------- */
 
 SELECT id, name, type, point, date
-	FROM public.occurrences_point;
+	FROM occurrences_point;
 
 SELECT id, name, type, date, polygon
-	FROM public.occurrences_polygon;
-
-
-
-	codigo para filtrar no geoserver
-
-	type like 1
-
-
+	FROM occurrences_polygon;
+/*
 types{
 	Holes : 1,
 	Lights: 2,
 	DeadBodies:3,
 	inundation:4,
 	garbage:5,
-}
+}*/
