@@ -80,7 +80,7 @@ function getPoints(){
     removeMarker();
     for(var i=0; i< selectedTypes['Point'].length; i++){
         $.ajax({
-            url: 'http://localhost/01-Escola/IS/IS_OccurrencesRegister/php/getInformation.php?action='+selectedTypes['Point'][i],
+            url: 'http://localhost:3000/points/getHoles',
             type:'get',
             dataType:'json',
             contentType:'application/json',
@@ -99,7 +99,7 @@ function getPolygons(){
     console.log(selectedTypes['Polygon'][0]);
     for(var i=0; i< selectedTypes['Polygon'].length; i++){
         $.ajax({
-            url: 'http://localhost/01-Escola/IS/IS_OccurrencesRegister/php/getInformation.php?action='+selectedTypes['Polygon'][i],
+            url: 'http://localhost:3000/polygons/getLights',
             type:'get',
             dataType:'json',
             contentType:'application/json',

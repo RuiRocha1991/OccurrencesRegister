@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 //insert routes
 const pointsRouter = require('./routes/pointsRoute');
-const polygonsRouter = require('./routes/polygonRoute');
+const polygonsRouter = require('./routes/polygonsRoute');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
