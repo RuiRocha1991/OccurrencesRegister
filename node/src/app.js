@@ -3,12 +3,16 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
-
-app.use(bodyParser.json({limit: '5mb'}));
+//insert routes
+const pointsRouter = require('./routes/pointsRoute');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const path = require('path');
 app.use(express.static(path.resolve(__dirname, 'static')));
+app.get('/', function(){
+    res.sendFile('index.html');
+})
 
 
 
@@ -19,8 +23,9 @@ app.use(function(req, res, next){
     next();
 })
 
-app.get('/', function(){
-    res.sendFile('index.html');
-})
+
+
+
+app.use('/points',pointsRouter);
 
 module.exports = app;

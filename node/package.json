@@ -2,12 +2,13 @@
   "name": "IS_OccurrencesRegister",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "bin": {
     "node": "server.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon bin/server.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "express": "^4.16.4",
     "http": "0.0.0",
     "node-fetch": "^2.3.0",
+    "pg": "^7.8.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2"
   },
