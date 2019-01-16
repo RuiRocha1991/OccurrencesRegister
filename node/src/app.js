@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 //insert routes
 const pointsRouter = require('./routes/pointsRoute');
+const polygonsRouter = require('./routes/polygonRoute');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -27,5 +28,6 @@ app.use(function(req, res, next){
 
 
 app.use('/points',pointsRouter);
+app.use('/polygons',polygonsRouter);
 
 module.exports = app;
