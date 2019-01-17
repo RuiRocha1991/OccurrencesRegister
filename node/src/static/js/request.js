@@ -17,10 +17,9 @@ function getPoints(){
 }
 
 function getPolygons(){
-    console.log(selectedTypes['Polygon'][0]);
     for(var i=0; i< selectedTypes['Polygon'].length; i++){
         $.ajax({
-            url: 'http://localhost:3000/polygons/getLights',
+            url: 'http://localhost:3000/polygons/'+selectedTypes['Polygon'][i],
             type:'get',
             dataType:'json',
             contentType:'application/json',
@@ -46,6 +45,11 @@ function insertNewPoint(data){
         dataType:'json',
         success: function (res) {
             console.log(res);
+            if(res.status==201){
+                map.off('click', onMapClick);
+                $('#map').css( 'cursor', 'grab' );
+                $('#modalCreatePoint').modal('hide')
+            }
         },
         error: function (errorMessage) {
             console.log(errorMessage);

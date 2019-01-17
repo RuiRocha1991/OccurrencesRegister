@@ -33,4 +33,7 @@ upload
 #config
 /node/src/conn.js
 
+#upload photos
+node/src/static/uploadPhotos
+
 

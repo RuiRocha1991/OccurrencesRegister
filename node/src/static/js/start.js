@@ -8,7 +8,6 @@ selectedTypes['Polygon']= new Array();
 $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18});
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-    
     map.locate({setView: true, maxZoom: 20});
 
     initFunctionPoints();
@@ -30,8 +29,11 @@ function initVariablesModal(){
                 data.append('latLng', lat_lng);
                 data.append('type', typeOccurrence);
                 insertNewPoint(data);
+                var coord = lat_lng.split(","); 
+                markers[markers.length]=L.marker([coord[1],coord[0]]).addTo(map);
             }
         }
+        
 
     })
 }
@@ -40,13 +42,13 @@ function onMapClick(e) {
     $('#modalCreatePoint').modal('show');
     $('#lat_lng').val(e.latlng.lng+','+e.latlng.lat);
     isActiveInsertPoint=false;
-    map.off('click', onMapClick);
 }
 
 function activeInsertPoint(){
     if(!isActiveInsertPoint){
         isActiveInsertPoint=true;
         map.on('click', onMapClick);
+        $('#map').css( 'cursor', 'url(./img/iconMouse.png), auto    ' );
     }
 }
 
@@ -94,11 +96,11 @@ function initFunctionPolygons(){
         selectedTypes['Polygon']=[];
         if($(this).prop('checked')){
             $('.allPolygons').prop('checked',true);
-            selectedTypes['Polygon'].push('getPolygonsHoles');
-            selectedTypes['Polygon'].push('getPolygonsGarbage');
-            selectedTypes['Polygon'].push('getPolygonsLights');
-            selectedTypes['Polygon'].push('getPolygonsDeadBodies');
-            selectedTypes['Polygon'].push('getPolygonsInundation');
+            selectedTypes['Polygon'].push('getHoles');
+            selectedTypes['Polygon'].push('getGarbage');
+            selectedTypes['Polygon'].push('getLights');
+            selectedTypes['Polygon'].push('getDeadBodies');
+            selectedTypes['Polygon'].push('getInundation');
         }else{
             $('.allPolygons').prop('checked',false);
         }

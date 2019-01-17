@@ -37,6 +37,9 @@ CREATE TABLE occurrences_polygon
   CONSTRAINT key_occurrences_polygon PRIMARY KEY (id)
 )
 
+alter table occurrences_line
+alter COLUMN line type geometry(lineString, 4326);
+
 
 ---- *************************************************************************------
 
@@ -61,6 +64,11 @@ INSERT INTO occurrences_polygon(
 	VALUES ('teste', 2, statement_timestamp(),
 			ST_GeomFromText('POLYGON((-8.847596 41.695263 ,-8.846706 41.695327,-8.844864 41.694878, -8.848583 41.695555,-8.846121 41.693953, -8.847596 41.695263))', 4326));
 
+
+INSERT INTO public.occurrences_line(
+	 name, type, data, line, image)
+	VALUES ( 'primeira linha', 1, statement_timestamp(), ST_SetSRID(ST_MakeLine(ARRAY[ST_MakePoint(-8.847596 ,41.695263),ST_MakePoint(-8.806156,41.725398)]),4326), 'lixo');
+
 /****** ----------------------------- */
 
 SELECT id, name, type, point, date
@@ -68,6 +76,8 @@ SELECT id, name, type, point, date
 
 SELECT id, name, type, date, polygon
 	FROM occurrences_polygon;
+
+	
 /*
 types{
 	Holes : 1,

@@ -15,7 +15,7 @@ exports.create =(req, res, next) =>{
                 if(err){
                     res.status(500).send({message:'error Insert', error:err});
                 }else{
-                    res.status(201).send({message:'insert successful'});
+                    res.status(201).send({message:'insert successful', status:201});
                 }
             })
             }
