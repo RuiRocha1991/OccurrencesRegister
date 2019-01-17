@@ -3,10 +3,24 @@ const fetch = require('node-fetch');
 const pool = require('../conn/conn');
 
 exports.create =(req, res, next) =>{
-    /*pool.query('SELECT * FROM "occurrences_point"',(error, result) =>{
-      console.log(result);
-        res.status(200).send(result.rows);
-    })*/
+    if(req.files){
+        var file = req.files.file,
+            filename = file.name;        
+        file.mv('./src/static/uploadPhotos/'+filename, function(error){
+            if(error){
+                console.log(error);
+                res.send(error);
+            }else{
+            pool.query(`INSERT INTO occurrences_point( name, type, date, point,image ) VALUES ( '${req.body.description}' ,${req.body.type}, statement_timestamp(),ST_SetSRID(ST_MakePoint(${req.body.latLng}),4326), '${filename}')`,(err, result) =>{
+                if(err){
+                    res.status(500).send({message:'error Insert', error:err});
+                }else{
+                    res.status(201).send({message:'insert successful'});
+                }
+            })
+            }
+        })
+    }
 }
 
 exports.delete=(req, res, next)=>{
