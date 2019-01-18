@@ -9,7 +9,7 @@ $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18});
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
     map.locate({setView: true, maxZoom: 20});
-
+   
     initFunctionPoints();
     initFunctionPolygons();
     initVariablesModal();
