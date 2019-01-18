@@ -78,4 +78,18 @@ function insertNewPolygon(data){
             console.log(errorMessage);
         }
     });
+    
+function getRegions(){
+    $.ajax({
+        url: 'http://localhost:3000/regions/getRegion',
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function(response){
+            console.log(response);
+        },
+        error:function(error){
+            console.log(error);
+        }
+    })
 }

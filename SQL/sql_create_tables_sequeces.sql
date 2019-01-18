@@ -77,6 +77,9 @@ SELECT id, name, type, point, date
 SELECT id, name, type, date, polygon
 	FROM occurrences_polygon;
 
+select line.*, point.*, polygon.* from occurrences_line as line, occurrences_point as point, occurrences_polygon as polygon, regions
+where ST_INTERSECTS(line.line, regions.geom) and ST_INTERSECTS(point.point, regions.geom) and ST_INTERSECTS(polygon.geometry, regions.geom) and regions.municipio='VIANA DO CASTELO';
+
 	
 /*
 types{

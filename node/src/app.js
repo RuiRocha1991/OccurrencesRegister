@@ -8,6 +8,7 @@ const upload = require('express-fileupload');
 //insert routes
 const pointsRouter = require('./routes/pointsRoute');
 const polygonsRouter = require('./routes/polygonsRoute');
+const regionRouter = require('./routes/regionsRoute');
 
 app.use(upload()); 
 app.use(bodyParser.json());
@@ -32,5 +33,6 @@ app.get('/', function(){
 
 app.use('/points',pointsRouter);
 app.use('/polygons',polygonsRouter);
+app.use('/regions',regionRouter);
 
 module.exports = app;
