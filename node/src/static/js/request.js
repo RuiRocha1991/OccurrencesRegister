@@ -56,3 +56,26 @@ function insertNewPoint(data){
         }
     });
 }
+
+function insertNewPolygon(data){
+    $.ajax({
+        url:'http://localhost:3000/points/',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST', 
+        dataType:'json',
+        success: function (res) {
+            if(res.status==201){
+                map.off('click', onMapClick);
+                $('#map').css( 'cursor', 'grab' );
+                $('#modalCreatePoint').modal('hide')
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
