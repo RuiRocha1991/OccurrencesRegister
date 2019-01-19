@@ -44,12 +44,8 @@ function insertNewPoint(data){
         type: 'POST', 
         dataType:'json',
         success: function (res) {
-            console.log(res);
-            if(res.status==201){
-                map.off('click', onMapClick);
-                $('#map').css( 'cursor', 'grab' );
-                $('#modalCreatePoint').modal('hide')
-            }
+            if(res.status==201)
+                $('#modalCreatePoint').modal('hide');
         },
         error: function (errorMessage) {
             console.log(errorMessage);

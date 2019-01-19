@@ -18,6 +18,13 @@ function removeMarker(){
         }
 }
 
+function removePolygon(){
+    if(markers.length>0)
+        for(var i=0; i<markers.length; i++){
+            map.removeLayer(markers[i]);
+        }
+}
+
 function addPolygonToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
