@@ -9,5 +9,5 @@ router.get('/getLinesByLocality', controller.getLinesByLocality);
 router.get('/getPolygonsByLocality', controller.getPolygonsByLocality);
 router.get('/getPointsByPointAndRadius', controller.getPointsByPointAndRadius);
 router.get('/getLinesByPointAndRadius', controller.getLinesByPointAndRadius);
-router.get('/getPointsByPointAndRadius', controller.getPointsByPointAndRadius);
+router.get('/getPolygonsByPointAndRadius', controller.getPolygonsByPointAndRadius);
 module.exports=router; 
