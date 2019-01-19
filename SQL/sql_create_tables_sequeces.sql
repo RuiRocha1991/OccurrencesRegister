@@ -41,6 +41,9 @@ alter table occurrences_line
 alter COLUMN line type geometry(lineString, 4326);
 
 
+ALTER TABLE regions
+ALTER COLUMN geom TYPE geometry(MultiPolygon, 4326) USING ST_Transform(ST_SetSRID(geom,3763),4326) ;
+
 ---- *************************************************************************------
 
 INSERT INTO occurrences_point(
@@ -77,8 +80,14 @@ SELECT id, name, type, point, date
 SELECT id, name, type, date, polygon
 	FROM occurrences_polygon;
 
-select line.*, point.*, polygon.* from occurrences_line as line, occurrences_point as point, occurrences_polygon as polygon, regions
-where ST_INTERSECTS(line.line, regions.geom) and ST_INTERSECTS(point.point, regions.geom) and ST_INTERSECTS(polygon.geometry, regions.geom) and regions.municipio='VIANA DO CASTELO';
+SELECT occurrences_point.*
+FROM occurrences_point, regions where ST_Intersects(occurrences_point.point, regions.geom) and regions.distrito ='VIANA DO CASTELO';
+
+SELECT occurrences_line.*
+FROM occurrences_line, regions where ST_Intersects(occurrences_line.line, regions.geom) and regions.distrito ='VIANA DO CASTELO';
+
+SELECT occurrences_polygon.*
+FROM occurrences_polygon, regions where ST_Intersects(occurrences_polygon.geometry, regions.geom) and regions.distrito ='VIANA DO CASTELO';
 
 	
 /*
