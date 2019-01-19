@@ -14,32 +14,54 @@
 </head>
 <body>
     <div id="container">
-        <div id="map"></div> 
-        <div id="menu">
-            <div>
-                <h3>Menu</h3>
-                <ul >
-                    <li><label><input type="checkbox" id="allPoints">Points</label></li>
-                    <li><label><input type="checkbox" id="holesPoints" class="allPoints" data-method="getHoles">Holes Points</label></li>
-                    <li><label><input type="checkbox" id="garbagesPoints" class="allPoints" data-method="getGarbage">Garbages Points</label></li>
-                    <li><label><input type="checkbox" id="lightsPoints" class="allPoints" data-method="getLights">Lights Points</label></li>
-                    <li><label><input type="checkbox" id="deadBodiesPoints" class="allPoints" data-method="getDeadBodies">DeadBodies Points</label></li>
-                    <li><label><input type="checkbox" id="inundationsPoints" class="allPoints" data-method="getInundation">Inundations Points</label></li> 
-                </ul>
-                <button onclick="activeInsertPoint()">New Point</button>
+        <div id="map">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                Launch demo modal
+              </button>
+        </div> 
+        
+    </div> 
 
-                <ul >
-                    <li><label><input type="checkbox" id="allPolygons">Polygons</label></li>
-                    <li><label><input type="checkbox" id="holesPolygons" class="allPolygons" data-method="getPolygonsHoles">Holes Polygons</label></li>
-                    <li><label><input type="checkbox" id="garbagesPolygons" class="allPolygons" data-method="getPolygonsGarbage">Garbages Polygons</label></li>
-                    <li><label><input type="checkbox" id="lightsPolygons" class="allPolygons" data-method="getPolygonsLights">Lights Polygons</label></li>
-                    <li><label><input type="checkbox" id="deadBodiesPolygons" class="allPolygons" data-method="getPolygonsDeadBodies">DeadBodies Polygons</label></li>
-                    <li><label><input type="checkbox" id="inundationsPolygons" class="allPolygons" data-method="getPolygonsInundation">Inundations Polygons</label></li> 
-                </ul>
-                    <button>New Polygons</button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Menu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="menu">
+                <div>
+                    <ul >
+                        <li><label><input type="checkbox" id="allPoints">Points</label></li>
+                        <li><label><input type="checkbox" id="holesPoints" class="allPoints" data-method="getHoles">Holes Points</label></li>
+                        <li><label><input type="checkbox" id="garbagesPoints" class="allPoints" data-method="getGarbage">Garbages Points</label></li>
+                        <li><label><input type="checkbox" id="lightsPoints" class="allPoints" data-method="getLights">Lights Points</label></li>
+                        <li><label><input type="checkbox" id="deadBodiesPoints" class="allPoints" data-method="getDeadBodies">DeadBodies Points</label></li>
+                        <li><label><input type="checkbox" id="inundationsPoints" class="allPoints" data-method="getInundation">Inundations Points</label></li> 
+                    </ul>
+    
+                    <ul >
+                        <li><label><input type="checkbox" id="allPolygons">Polygons</label></li>
+                        <li><label><input type="checkbox" id="holesPolygons" class="allPolygons" data-method="getPolygonsHoles">Holes Polygons</label></li>
+                        <li><label><input type="checkbox" id="garbagesPolygons" class="allPolygons" data-method="getPolygonsGarbage">Garbages Polygons</label></li>
+                        <li><label><input type="checkbox" id="lightsPolygons" class="allPolygons" data-method="getPolygonsLights">Lights Polygons</label></li>
+                        <li><label><input type="checkbox" id="deadBodiesPolygons" class="allPolygons" data-method="getPolygonsDeadBodies">DeadBodies Polygons</label></li>
+                        <li><label><input type="checkbox" id="inundationsPolygons" class="allPolygons" data-method="getPolygonsInundation">Inundations Polygons</label></li> 
+                    </ul>
+                </div>
             </div>
         </div>
-    </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Modal area upload photos-->
 <div id="modalCreatePoint" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
