@@ -17,6 +17,8 @@ $(document).ready(function(){
     map.locate({setView: true, maxZoom: 20});
     editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
     insertToolbarEdit();
     initDrawControl();
 
@@ -51,13 +53,26 @@ function initDrawControl(){
         }
         if (type === 'circle') {
             layer.bindPopup('A popup!');   
-                data ={point: layer._latlng.lng + ', ' + layer._latlng.lat, radius: layer._mRadius};
-                getPointsByPointAndRadius(data);
-                getLinesByPointAndRadius(data);
-                getPolygonsByPointAndRadius(data);
+                var data ={point: layer._latlng.lng + ', ' + layer._latlng.lat, radius: layer._mRadius};
+                getOccurrencesByPointAndRadius(data);
         }
         editableLayers.addLayer(layer);
     });
+}
+
+function onLocationFound(e) {
+    var data={point: e.latlng.lng + ', ' + e.latlng.lat};
+    getLocalityByMyLocation(data);
+}
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+function getOccurrencesByPointAndRadius(data){
+    getPointsByPointAndRadius(data);
+    getLinesByPointAndRadius(data);
+    getPolygonsByPointAndRadius(data);
 }
 
 function insertToolbarEdit(){
