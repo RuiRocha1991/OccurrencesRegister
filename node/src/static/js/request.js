@@ -169,10 +169,77 @@ function getPolygonsByPointAndRadius(data){
     });
 }
 
+function searchByDate(){
+    var data= {startDate: $('#datepickerStart').val(), endDate: $('#datepickerEnd').val()};
+    removeMarker();
+    removePolygon();
+    removeLines();
+    getPointsByDate(data);
+    getLinesByDate(data);
+    getPolygonsByDate(data);
+  
+}
+
+function getPointsByDate(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getPointsByDate',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                removeMarker();
+                addMarkerToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getLinesByDate(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getLinesByDate',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                removeLines();
+                addLineToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getPolygonsByDate(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getPolygonsByDate',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                removePolygon();
+                addPolygonToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
 function getLocalities(){
     $.ajax({
         url:'http://localhost:3000/queries/getLocalities',
-        data: data,
         type:'get',
         dataType:'json',
         contentType:'application/json',
@@ -239,7 +306,7 @@ function getLinesByLocality(data){
         contentType:'application/json',
         success: function (res) {
             if(res.status==200 && res.result.length>0){
-               removeLines();
+                removeLines();
                 addLineToMapFromQueries(res.result);
             }
         },
@@ -258,9 +325,31 @@ function getPolygonsByLocality(data){
         contentType:'application/json',
         success: function (res) {
             if(res.status==200 && res.result.length>0){
-                 removePolygon();
+                removePolygon();
                 addPolygonToMapFromQueries(res.result);
             }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function uploadFile(){
+    console.log('chegou')
+    var data = new FormData();
+    data.append('file',$('#inputFile')[0].files[0]);
+    $.ajax({
+        url:'http://localhost:3000/uplaodFile',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST', 
+        dataType:'xml',
+        success: function (res) {
+            console.log(res);
         },
         error: function (errorMessage) {
             console.log(errorMessage);

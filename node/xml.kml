@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<Style id="poly-BCA920">
+		<PolyStyle>
+			<color>80BCA920</color>
+		</PolyStyle>
+	</Style>
+	<Style id="line-w2">
+		<LineStyle>
+			<color>FFBCA920</color>
+			<width>2.0</width>
+		</LineStyle>
+	</Style>
+	<Style id="icon-503-BCA920">
+		<IconStyle>
+			<color>FFBCA920</color>
+			<Icon><href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href></Icon>
+		</IconStyle>
+	</Style>
+	<Placemark>
+		<name><![CDATA[polygon 1]]></name>
+		<styleUrl>#poly-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:46</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Inundation]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_1.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Polygon>
+			<outerBoundaryIs><LinearRing><coordinates>-8.84507,41.69941,0 -8.84425,41.69876,0 -8.84323,41.69908,0 -8.84282,41.69979,0</coordinates></LinearRing></outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[polygon 2]]></name>
+		<styleUrl>#poly-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:48</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[DeadBodies]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_2.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Polygon>
+			<outerBoundaryIs><LinearRing><coordinates>-8.84765,41.69408,0 -8.84755,41.69524,0 -8.84725,41.69539,0 -8.84674,41.69538,0 -8.84608,41.69493,0 -8.84618,41.69401,0 -8.84639,41.69382,0 -8.84705,41.69386,0 -8.84751,41.69395,0</coordinates></LinearRing></outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[polygon 3]]></name>
+		<styleUrl>#poly-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:50</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[DeadBodies]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_3.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Polygon>
+			<outerBoundaryIs><LinearRing><coordinates>-8.85047,41.69683,0 -8.85038,41.69706,0 -8.85016,41.69722,0 -8.84821,41.6937,0 -8.84814,41.69354,0 -8.84832,41.69333,0 -8.84915,41.69339,0</coordinates></LinearRing></outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[polygon 4]]></name>
+		<styleUrl>#poly-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:52</when></TimeStamp>
+		<ExtendedData>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_4.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Polygon>
+			<outerBoundaryIs><LinearRing><coordinates>-8.85851,41.7136,0 -8.8616,41.7179,0 -8.85925,41.71817,0 -8.85804,41.71824,0 -8.85595,41.71472,0</coordinates></LinearRing></outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[line 1]]></name>
+		<styleUrl>#line-w2</styleUrl>
+		<TimeStamp><when>2019-01-21T17:53</when></TimeStamp>
+		<ExtendedData>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_5.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<LineString>
+			<coordinates>-8.77444,41.70934,0 -8.76706,41.70984,0 -8.76067,41.71114,0</coordinates>
+		</LineString>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[line2]]></name>
+		<styleUrl>#line-w2</styleUrl>
+		<TimeStamp><when>2019-01-21T17:54</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Holes]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_6.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<LineString>
+			<coordinates>-8.86724,41.75201,0 -8.86241,41.77315,0</coordinates>
+		</LineString>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[Ponto 1]]></name>
+		<styleUrl>#icon-503-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:55</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Holes]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_7.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Point>
+			<coordinates>-8.78619924,41.73160912,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[Ponto 2]]></name>
+		<styleUrl>#icon-503-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T17:57</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Holes]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_8.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Point>
+			<coordinates>-8.82196449,41.64742573,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name><![CDATA[point 3]]></name>
+		<styleUrl>#icon-503-BCA920</styleUrl>
+		<TimeStamp><when>2019-01-21T18:03</when></TimeStamp>
+		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Lights]]></value>
+</Data>
+			<Data name="rating">
+				<value><![CDATA[0]]></value>
+</Data>
+			<Data name="pictures">
+				<value><![CDATA[<br/><img src="images/image_9.jpg"/>
+]]></value>
+</Data>
+</ExtendedData>
+		<Point>
+			<coordinates>-8.75691086,41.70447271,0</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>

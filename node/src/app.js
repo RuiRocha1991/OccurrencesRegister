@@ -10,7 +10,7 @@ const pointsRouter = require('./routes/pointsRoute');
 const polygonsRouter = require('./routes/polygonsRoute');
 const selectQueriesRouter = require('./routes/selectQueriesRouter');
 const linesRouter = require('./routes/linesRoute');
-
+const uploadFileRouter = require('./routes/uploadFileRoute');
 
 app.use(upload()); 
 app.use(bodyParser.json());
@@ -37,6 +37,6 @@ app.use('/points',pointsRouter);
 app.use('/polygons',polygonsRouter);
 app.use('/lines', linesRouter);
 app.use('/queries', selectQueriesRouter);
-
+app.use('/uplaodFile', uploadFileRouter);
 
 module.exports = app;

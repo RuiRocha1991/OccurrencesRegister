@@ -29,9 +29,33 @@ $(document).ready(function(){
     initVariablesModalInsertPoint();
     initVariablesModalInsertPolygon();
     initVariablesModalInsertLine();
+
+    getLocalities();
+    $('#freguesias').change(function(){
+        removeMarker();
+        removePolygon();
+        removeLines();
+        getOccurrencesByLocality({locality: $(this).children(":selected").html()});
+    })
+
+    $('#cleanButton').click(function(){
+        removeMarker();
+        removePolygon();
+        removeLines();
+    })
+    initModalUploadFile();
 });
 
 
+function openModalUploadFile(){
+    $('#modalUploadPhotos').modal('show');
+}
+
+function initModalUploadFile(){
+    $('#btn-submitFile').click(function(){
+        uploadFile();
+    });
+}
 
 function openNavLayers(slidenav) {
     document.getElementById(slidenav).style.width = "250px";
@@ -67,6 +91,25 @@ function initDrawControl(){
                 getOccurrencesByPointAndRadius(data);
         }
         editableLayers.addLayer(layer);
+    });
+
+    map.on('draw:deleted', function(e) {
+        var keys= Object.keys(e.layers._layers);
+        for(var i=0; i<keys.length; i++ ){
+            console.log(e.layers._layers[keys[i]]);
+        }
+        /*var type = e.layerType,
+            layer = e.layer;
+        if (type === 'marker') {
+            console.log(layer);
+        }
+        if (type === 'polygon') {
+            
+        }
+        if (type === 'polyline') {
+            
+        }
+        editableLayers.addLayer(layer);*/
     });
 }
 

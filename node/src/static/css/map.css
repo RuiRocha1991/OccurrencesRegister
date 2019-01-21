@@ -15,14 +15,14 @@ html, body, #map {
     width: 100%;
     float: left;
 }
-#menu{
+.menu{
     color: white;
     width: 100%;
     float: left;
     padding: 8px;
 }
 
-#menu h3{
+.menu h3{
     text-align: center;
 }
 
@@ -121,4 +121,18 @@ list-style: none;
   }
   #iconParish{
     top: 110px;
+}
+
+#uploadFile{
+    width:10%;
+    border-radius: 10px;
+    padding: 5px;
+    bottom: 50px;
+    left:10px;
+    cursor:pointer;
+    background-color: #000033;
+    color: white;
+    font-size: 14px;
+    z-index: 2; 
+    position:absolute;
 }

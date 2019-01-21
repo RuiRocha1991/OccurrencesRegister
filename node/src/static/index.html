@@ -21,13 +21,13 @@
         <i id="iconDate" class="fa fa-calendar-alt iconSearch" onclick="openNavLayers('myDateSideNav')"></i>
         <i id="iconParish" class="fa fa-search-location iconSearch" onclick="openNavLayers('myParishSideNav')"></i>
         <input type="button" id="cleanButton" value="CLEAR">
-        
+        <button id="uploadFile" onclick="openModalUploadFile()"> Upload</button>
     </div> 
 
     <div id="mySidenav" class="sidenav" style="z-index: 3">
         <small class="titleSlide" style="font-size: 25px">LAYERS</small>
         <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('mySidenav')">&times;</a>
-        <div id="menu">  
+        <div class="menu">  
             <small style="font-size: 20px">POINTS</small>
             <ul style="padding-left:20px">
                 <li><label><input type="checkbox" id="allPoints"> All</label></li>
@@ -62,17 +62,18 @@
     <div id="myDateSideNav" class="sidenav" style="z-index: 3">
         <small class="titleSlide" style="font-size: 25px">DATE</small>
         <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('myDateSideNav')">&times;</a>
-        <div id="menu">
-                <input type="text" id="datepickerStart">
-                <input type="text" id="datepickerEnd">
+        <div class="menu container justify-content-center " >
+                <input class="form-control my-3 m-1" type="date" id="datepickerStart">
+                <input class="form-control my-3 m-1" type="date" id="datepickerEnd">
+                <button class="btn btn-primary form-control m-1 my-3" onclick="searchByDate()">Search</button>
         </div>
     </div>
 
     <div id="myParishSideNav" class="sidenav" style="z-index: 3">
             <small class="titleSlide" style="font-size: 25px">PARISH</small>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('myParishSideNav')">&times;</a>
-            <div id="menu">
-                    <select size="10" id="freguesias" name="Freguesias"></select>
+            <div class="menu">
+                    <select id="freguesias" name="Freguesias"></select>
             </div>
         </div>
 
@@ -223,6 +224,31 @@
                 </div>
             </div>
             <button class="btn btn-success" id="btn-submitLine">Submit</button>
+        <div class="modal-footer mt-2">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- End Modal insert lines-->
+
+
+<!-- Modal to upload photos-->
+<div id="modalUploadPhotos" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="border m-3 p-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" >XML</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputFile" name="photos">
+                    <label class="custom-file-label" for="inputFile">Choose File</label>
+                </div>
+            </div>
+            <button class="btn btn-success" id="btn-submitFile">Submit</button>
         <div class="modal-footer mt-2">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>

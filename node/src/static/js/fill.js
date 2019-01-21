@@ -59,7 +59,8 @@ function addMarkerToMapFromQueries(data){
         var lng =JSON.parse(data[i].geom).coordinates[0];
         var customPopup = createPopupFromQueries(data[i]);
         var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        markers[markers.length]=L.marker([lat, lng]).bindPopup(customPopup,customOptions).addTo(map); 
+        markers[markers.length]=L.marker([lat, lng],{alt: data[i].id, test: 'exemplo' }).bindPopup(customPopup,customOptions).addTo(map); 
+        editableLayers.addLayer(markers[markers.length-1]);
     }
 }
 
@@ -84,6 +85,7 @@ function addLineToMapFromQueries(data){
 function fillSelectLocalities(data){
     $('#freguesias options').remove();
     for(var i=0; i<data.length; i++){
-        $('#freguesias').append(`<option value="${data.freguesia}">${data.freguesia}</option>`);
+        $('#freguesias').append(`<option value="${data[i].freguesia}">${data[i].freguesia}</option>`);
     }
+    
 }

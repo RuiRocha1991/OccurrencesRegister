@@ -10,13 +10,14 @@ exports.create =(req, res, next) =>{
             if(error){
                 res.send(error);
             }else{
-            pool.query(`INSERT INTO occurrences_line( name, type, date, line ,image ) VALUES ( '${req.body.description}' ,${req.body.type}, statement_timestamp(),ST_SetSRID(ST_MakeLine(ARRAY[${req.body.points}]),4326), '${filename}')`,(err, result) =>{
-                if(err){
-                    console.log(err);
-                    res.status(500).send({message:'error Insert', error:err});
-                }else{
-                    res.status(201).send({message:'insert successful', status:201});
-                }
+                var date = req.body.date ? req.body.date : 'statement_timestamp()';
+                pool.query(`INSERT INTO occurrences_line( name, type, date, line ,image ) VALUES ( '${req.body.description}' ,${req.body.type}, ${date},ST_SetSRID(ST_MakeLine(ARRAY[${req.body.points}]),4326), '${filename}')`,(err, result) =>{
+                    if(err){
+                        console.log(err);
+                        res.status(500).send({message:'error Insert', error:err});
+                    }else{
+                        res.status(201).send({message:'insert successful', status:201});
+                    }
             })
             }
         })
