@@ -72,6 +72,12 @@ INSERT INTO public.occurrences_line(
 	 name, type, data, line, image)
 	VALUES ( 'primeira linha', 1, statement_timestamp(), ST_SetSRID(ST_MakeLine(ARRAY[ST_MakePoint(-8.847596 ,41.695263),ST_MakePoint(-8.806156,41.725398)]),4326), 'lixo');
 
+
+/**************************** insert from xml ****************************************/
+INSERT INTO public.occurrences_point(
+	name, type, date, point, image)
+	VALUES ( 'sadasdasdasd', 3, '2018-11-23 14:53:12', ST_SetSRID(ST_MakePoint(-8.847596 ,41.695263),4326), 'askjdbajdhbajkdh');
+
 /****** ----------------------------- */
 
 SELECT id, name, type, point, date

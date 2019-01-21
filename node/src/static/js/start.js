@@ -235,7 +235,6 @@ function onPolylineMapClick(e) {
     }
     points += 'ST_MakePoint('+e._latlngs[e._latlngs.length-1].lng + ', ' + e._latlngs[e._latlngs.length-1].lat + ')';
     pointsToPolygonOrLine=points;
-
 }
 
 function initFunctionPoints(){

@@ -6,24 +6,43 @@ function createPopup(data){
 function addMarkerToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
-        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]]).bindPopup(customPopup,customOptions).addTo(map); 
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]],{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map); 
+        editableLayers.addLayer(markers[markers.length-1]);
     }
 }
 
 function addPolygonToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
-        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        polygons[polygons.length]=L.geoJSON(data).bindPopup(customPopup,customOptions).addTo(map);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        console.log(data[i].geometry.coordinates[0]);
+        var coord='[';
+        for(var x=0; x< data[i].geometry.coordinates[0].length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${data[i].geometry.coordinates[0][x][1]}, ${data[i].geometry.coordinates[0][x][0]}]`;
+        }
+        coord+=']';
+        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map);
+        map.fitBounds(polygons[polygons.length-1].getBounds());
+        editableLayers.addLayer(polygons[polygons.length-1]);
     }
 }
 
 function addLineToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
-        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        lines[lines.length]=L.geoJSON(data).bindPopup(customPopup,customOptions).addTo(map);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        var coord='[';
+        for(var x=0; x<data[i].geometry.coordinates.length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${data[i].geometry.coordinates[x][1]}, ${data[i].geometry.coordinates[x][0]}]`;
+        }
+        coord+=']';
+        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_line' }).bindPopup(customPopup,customOptions).addTo(map);
+        editableLayers.addLayer(lines[lines.length-1]);
     }
 }
 
@@ -32,6 +51,7 @@ function removeMarker(){
         for(var i=0; i<markers.length; i++){
             map.removeLayer(markers[i]);
         }
+        markers=[];
 }
 
 function removePolygon(){
@@ -39,6 +59,7 @@ function removePolygon(){
         for(var i=0; i<polygons.length; i++){
             map.removeLayer(polygons[i]);
         }
+    polygons=[];
 }
 
 function removeLines(){
@@ -46,6 +67,7 @@ function removeLines(){
         for(var i=0; i<lines.length; i++){
             map.removeLayer(lines[i]);
         }
+    lines=[];
 }
 
 function createPopupFromQueries(data){
@@ -59,7 +81,7 @@ function addMarkerToMapFromQueries(data){
         var lng =JSON.parse(data[i].geom).coordinates[0];
         var customPopup = createPopupFromQueries(data[i]);
         var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        markers[markers.length]=L.marker([lat, lng],{alt: data[i].id, test: 'exemplo' }).bindPopup(customPopup,customOptions).addTo(map); 
+        markers[markers.length]=L.marker([lat, lng],{id: data[i].id, table: 'occurrences_point' }).bindPopup(customPopup,customOptions).addTo(map); 
         editableLayers.addLayer(markers[markers.length-1]);
     }
 }
@@ -67,18 +89,33 @@ function addMarkerToMapFromQueries(data){
 function addPolygonToMapFromQueries(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopupFromQueries(data[i]);
-        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        data[i].geom = JSON.parse(data[i].geom);
-        polygons[polygons.length]=L.geoJSON(data[i].geom).bindPopup(customPopup,customOptions).addTo(map);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        var coord='[';
+        for(var x=0; x<JSON.parse(data[i].geom).coordinates[0].length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${JSON.parse(data[i].geom).coordinates[0][x][1]}, ${JSON.parse(data[i].geom).coordinates[0][x][0]}]`;
+        }
+        coord+=']';
+        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id, table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map);
+        map.fitBounds(polygons[polygons.length-1].getBounds());
+        editableLayers.addLayer(polygons[polygons.length-1]);
     }
 }
 
 function addLineToMapFromQueries(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopupFromQueries(data[i]);
-        var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        data[i].geom = JSON.parse(data[i].geom);
-        lines[lines.length]=L.geoJSON(data[i].geom).bindPopup(customPopup,customOptions).addTo(map);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        var coord='[';
+        for(var x=0; x<JSON.parse(data[i].geom).coordinates.length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${JSON.parse(data[i].geom).coordinates[x][1]}, ${JSON.parse(data[i].geom).coordinates[x][0]}]`;
+        }
+        coord+=']';
+        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id, table: 'occurrences_line' }).bindPopup(customPopup,customOptions).addTo(map);
+        editableLayers.addLayer(lines[lines.length-1]);
     }
 }
 
