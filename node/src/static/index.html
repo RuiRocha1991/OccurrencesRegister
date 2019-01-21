@@ -10,24 +10,71 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
     <link rel="stylesheet" type="text/css" media="screen" href="css/map.css" />
     <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     
 </head>
 <body>
     <div id="container">
-        <div id="map" style="z-index: 1; position:absolute">
+        <div id="map" style="z-index: 1; position:absolute" onclick="closeNavLayers('mySidenav'), closeNavLayers('myDateSideNav') , closeNavLayers('myParishSideNav')" >
         </div> 
-        <span style="font-size:30px;cursor:pointer; z-index: 2; position:absolute" onclick="openNav()">&#9776; open</span>
-
+        <i id="iconLayers" class="fa fa-layer-group iconSearch" onclick="openNavLayers('mySidenav')"></i>
+        <i id="iconDate" class="fa fa-calendar-alt iconSearch" onclick="openNavLayers('myDateSideNav')"></i>
+        <i id="iconParish" class="fa fa-search-location iconSearch" onclick="openNavLayers('myParishSideNav')"></i>
+        <input type="button" id="cleanButton" value="CLEAR">
         
     </div> 
 
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-      </div>
+    <div id="mySidenav" class="sidenav" style="z-index: 3">
+        <small class="titleSlide" style="font-size: 25px">LAYERS</small>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('mySidenav')">&times;</a>
+        <div id="menu">  
+            <small style="font-size: 20px">POINTS</small>
+            <ul style="padding-left:20px">
+                <li><label><input type="checkbox" id="allPoints"> All</label></li>
+                <li><label><input type="checkbox" id="holesPoints" class="allPoints" data-method="getHoles"> Holes</label></li>
+                <li><label><input type="checkbox" id="garbagesPoints" class="allPoints" data-method="getGarbage"> Garbages</label></li>
+                <li><label><input type="checkbox" id="lightsPoints" class="allPoints" data-method="getLights"> Lights</label></li>
+                <li><label><input type="checkbox" id="deadBodiesPoints" class="allPoints" data-method="getDeadBodies"> DeadBodies</label></li>
+                <li><label><input type="checkbox" id="inundationsPoints" class="allPoints" data-method="getInundation"> Inundations</label></li> 
+            </ul>
+            <small style="font-size: 20px">POLYGONS</small>
+            <ul style="padding-left:20px">
+                <li><label><input type="checkbox" id="allPolygons"> All</label></li>
+                <li><label><input type="checkbox" id="holesPolygons" class="allPolygons" data-method="getHoles"> Holes</label></li>
+                <li><label><input type="checkbox" id="garbagesPolygons" class="allPolygons" data-method="getGarbage"> Garbages</label></li>
+                <li><label><input type="checkbox" id="lightsPolygons" class="allPolygons" data-method="getLights"> Lights</label></li>
+                <li><label><input type="checkbox" id="deadBodiesPolygons" class="allPolygons" data-method="getDeadBodies"> DeadBodies</label></li>
+                <li><label><input type="checkbox" id="inundationsPolygons" class="allPolygons" data-method="getInundation"> Inundations</label></li>  
+            </ul>
+
+            <small style="font-size: 20px">LINES</small>
+            <ul style="padding-left:20px">
+                <li><label><input type="checkbox" id="allLines"> All</label></li>
+                <li><label><input type="checkbox" id="holesLines" class="allLines" data-method="getHoles"> Holes</label></li>
+                <li><label><input type="checkbox" id="garbagesLines" class="allLines" data-method="getGarbage"> Garbage</label></li>
+                <li><label><input type="checkbox" id="lightsLines" class="allLines" data-method="getLights"> Lights</label></li>
+                <li><label><input type="checkbox" id="deadBodiesLines" class="allLines" data-method="getDeadBodies"> DeadBodies</label></li>
+                <li><label><input type="checkbox" id="inundationsLines" class="allLines" data-method="getInundation"> Inundations</label></li>  
+            </ul>
+        </div>
+    </div>
+
+    <div id="myDateSideNav" class="sidenav" style="z-index: 3">
+        <small class="titleSlide" style="font-size: 25px">DATE</small>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('myDateSideNav')">&times;</a>
+        <div id="menu">
+                <input type="text" id="datepickerStart">
+                <input type="text" id="datepickerEnd">
+        </div>
+    </div>
+
+    <div id="myParishSideNav" class="sidenav" style="z-index: 3">
+            <small class="titleSlide" style="font-size: 25px">PARISH</small>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNavLayers('myParishSideNav')">&times;</a>
+            <div id="menu">
+                    <select size="10" id="freguesias" name="Freguesias"></select>
+            </div>
+        </div>
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -40,36 +87,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <div id="menu">
-                <div>
-                    <ul >
-                        <li><label><input type="checkbox" id="allPoints">Points</label></li>
-                        <li><label><input type="checkbox" id="holesPoints" class="allPoints" data-method="getHoles">Holes Points</label></li>
-                        <li><label><input type="checkbox" id="garbagesPoints" class="allPoints" data-method="getGarbage">Garbages Points</label></li>
-                        <li><label><input type="checkbox" id="lightsPoints" class="allPoints" data-method="getLights">Lights Points</label></li>
-                        <li><label><input type="checkbox" id="deadBodiesPoints" class="allPoints" data-method="getDeadBodies">DeadBodies Points</label></li>
-                        <li><label><input type="checkbox" id="inundationsPoints" class="allPoints" data-method="getInundation">Inundations Points</label></li> 
-                    </ul>
-    
-                    <ul >
-                        <li><label><input type="checkbox" id="allPolygons">Polygons</label></li>
-                        <li><label><input type="checkbox" id="holesPolygons" class="allPolygons" data-method="getHoles">Holes Polygons</label></li>
-                        <li><label><input type="checkbox" id="garbagesPolygons" class="allPolygons" data-method="getGarbage">Garbages Polygons</label></li>
-                        <li><label><input type="checkbox" id="lightsPolygons" class="allPolygons" data-method="getLights">Lights Polygons</label></li>
-                        <li><label><input type="checkbox" id="deadBodiesPolygons" class="allPolygons" data-method="getDeadBodies">DeadBodies Polygons</label></li>
-                        <li><label><input type="checkbox" id="inundationsPolygons" class="allPolygons" data-method="getInundation">Inundations Polygons</label></li>  
-                    </ul>
-
-                    <ul >
-                        <li><label><input type="checkbox" id="allLines">Lines</label></li>
-                        <li><label><input type="checkbox" id="holesLines" class="allLines" data-method="getHoles">Holes Polygons</label></li>
-                        <li><label><input type="checkbox" id="garbagesLines" class="allLines" data-method="getGarbage">Garbages Polygons</label></li>
-                        <li><label><input type="checkbox" id="lightsLines" class="allLines" data-method="getLights">Lights Polygons</label></li>
-                        <li><label><input type="checkbox" id="deadBodiesLines" class="allLines" data-method="getDeadBodies">DeadBodies Polygons</label></li>
-                        <li><label><input type="checkbox" id="inundationsLines" class="allLines" data-method="getInundation">Inundations Polygons</label></li>  
-                    </ul>
-                </div>
-            </div>
+            
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -213,16 +231,6 @@
     </div>
 </div>
 <!-- End Modal insert lines-->
-
-<script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
-    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>

@@ -82,9 +82,8 @@ function addLineToMapFromQueries(data){
 }
 
 function fillSelectLocalities(data){
-    //removel os campos do select
+    $('#freguesias options').remove();
     for(var i=0; i<data.length; i++){
-        //add campos to select
-        console.log(data.freguesia);
+        $('#freguesias').append(`<option value="${data.freguesia}">${data.freguesia}</option>`);
     }
 }

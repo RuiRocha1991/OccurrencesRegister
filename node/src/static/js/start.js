@@ -31,6 +31,16 @@ $(document).ready(function(){
     initVariablesModalInsertLine();
 });
 
+
+
+function openNavLayers(slidenav) {
+    document.getElementById(slidenav).style.width = "250px";
+}
+
+function closeNavLayers(slidenav) {
+    document.getElementById(slidenav).style.width = "0";
+}
+
 function initDrawControl(){
 // Initialise the draw control and pass it the FeatureGroup of editable layers
     drawControl = new L.Control.Draw(drawPluginOptions);

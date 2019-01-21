@@ -16,10 +16,8 @@ html, body, #map {
     float: left;
 }
 #menu{
-    border-left: 1px solid rgb(71, 87, 231);
-    background: rgba(10, 109, 238, 0.534);
-    height: 98%; 
-    width: 18%;
+    color: white;
+    width: 100%;
     float: left;
     padding: 8px;
 }
@@ -30,6 +28,30 @@ html, body, #map {
 
 ul{
 list-style: none;
+}
+
+#cleanButton{
+    width:10%;
+    border-radius: 10px;
+    padding: 5px;
+    bottom: 10px;
+    left:10px;
+    cursor:pointer;
+    background-color: #000033;
+    color: white;
+    font-size: 14px;
+    z-index: 2; 
+    position:absolute;
+
+}
+
+#freguesias{
+    width:80%;
+    height:30px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .modal-dialog { 
@@ -68,8 +90,35 @@ list-style: none;
     font-size: 36px;
     margin-left: 50px;
   }
+
+  .sidenav .titleSlide {
+    position: absolute;
+    top: 0;
+    left: 25px;
+    font-size: 36px;
+    color: white;
+    top: 20px
+  }
   
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  .iconSearch{
+      font-size:40px;
+      cursor:pointer; 
+      z-index: 2; 
+      position:absolute; 
+      margin-left: 10px;
+  }
+
+  #iconLayers{
+      top: 10px;
+  }
+  #iconDate{
+    top: 60px;
+  }
+  #iconParish{
+    top: 110px;
+}
