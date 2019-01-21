@@ -168,3 +168,102 @@ function getPolygonsByPointAndRadius(data){
         }
     });
 }
+
+function getLocalities(){
+    $.ajax({
+        url:'http://localhost:3000/queries/getLocalities',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                fillSelectLocalities(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getLocalityByMyLocation(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getLocalityByMyLocation',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                getOccurrencesByLocality({locality:res.result[0].freguesia});
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getOccurrencesByLocality(data){
+    getPointsByLocality(data);
+    getLinesByLocality(data);
+    getPolygonsByLocality(data);
+}
+
+function getPointsByLocality(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getPointsByLocality',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                removeMarker();
+                addMarkerToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getLinesByLocality(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getLinesByLocality',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+               removeLines();
+                addLineToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+function getPolygonsByLocality(data){
+    $.ajax({
+        url:'http://localhost:3000/queries/getPolygonsByLocality',
+        data: data,
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            if(res.status==200 && res.result.length>0){
+                 removePolygon();
+                addPolygonToMapFromQueries(res.result);
+            }
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
