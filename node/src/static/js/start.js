@@ -3,9 +3,13 @@ var drawControl;
 var editableLayers;
 var map;
 var markers= new Array();
+var polygons = new Array();
+var lines = new Array();
 var selectedTypes = new Array();
 selectedTypes['Point']= new Array();
 selectedTypes['Polygon']= new Array();
+selectedTypes['Line']=new Array();
+var pointsToPolygonOrLine="";
 
 $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18, zoomControl:false});
@@ -15,9 +19,14 @@ $(document).ready(function(){
     map.addLayer(editableLayers);
     insertToolbarEdit();
     initDrawControl();
+
     initFunctionPoints();
     initFunctionPolygons();
+    initFunctionLines();
+
     initVariablesModalInsertPoint();
+    initVariablesModalInsertPolygon();
+    initVariablesModalInsertLine();
 });
 
 function initDrawControl(){
@@ -42,7 +51,10 @@ function initDrawControl(){
         }
         if (type === 'circle') {
             layer.bindPopup('A popup!');   
-            console.log(layer)
+                data ={point: layer._latlng.lng + ', ' + layer._latlng.lat, radius: layer._mRadius};
+                getPointsByPointAndRadius(data);
+                getLinesByPointAndRadius(data);
+                getPolygonsByPointAndRadius(data);
         }
         editableLayers.addLayer(layer);
     });
@@ -70,7 +82,7 @@ function insertToolbarEdit(){
         },
         edit: {
             featureGroup: editableLayers, //REQUIRED!!
-            remove: false
+            remove: true
         }
     };
 }
@@ -94,37 +106,69 @@ function initVariablesModalInsertPoint(){
     });
 }
 
+function initVariablesModalInsertPolygon(){
+    $('#btnSubmitPolygon').click(function(){
+        var typeOccurrence = $('#id-occurrencePolygon').find('option:selected').val();
+        var description = $('#descriptionPolygon').val();
+        var photo = $('#photoPolygon')[0].files[0];
+        var data = new FormData();
+        if(typeOccurrence !=='Occurrence'){
+            if(typeOccurrence !== undefined && description !==''&& photo!==undefined){
+                data.append('file',photo);
+                data.append('description', description);
+                data.append('type', typeOccurrence);
+                data.append('points', pointsToPolygonOrLine);
+                insertNewPolygon(data);                
+            }
+        }
+    });
+}
+
+function initVariablesModalInsertLine(){
+    $('#btn-submitLine').click(function(){
+        var typeOccurrence = $('#id-occurrenceLine').find('option:selected').val();
+        var description = $('#descriptionLine').val();
+        var photo = $('#input-photosLine')[0].files[0];
+        var data = new FormData();
+        if(typeOccurrence !=='Occurrence'){
+            if(typeOccurrence !== undefined && description !==''&& photo!==undefined){
+                data.append('file',photo);
+                data.append('description', description);
+                data.append('type', typeOccurrence);
+                data.append('points', pointsToPolygonOrLine);
+                insertNewLine(data);                
+            }
+        }
+    });
+}
+
 function onMarkerMapClick(e) {
     $('#modalCreatePoint').modal('show');
     $('#lat_lng').val(e._latlng.lng+','+e._latlng.lat);
 }
 
 function onPolygonMapClick(e) {
+    pointsToPolygonOrLine="";
     $('#modalCreatePolygon').modal('show');
     var points = "";
     for(var i=0;i<e._latlngs[0].length; i= i+2){
         points += e._latlngs[0][i].lng + ' ' + e._latlngs[0][i].lat + ', ';
     }
     points += e._latlngs[0][0].lng + ' ' + e._latlngs[0][0].lat;
+    pointsToPolygonOrLine=points;
 }
 
 function onPolylineMapClick(e) {
+    pointsToPolygonOrLine="";
     $('#modalCreatePolyline').modal('show');
     var points = "";
     for(var i=0;i<e._latlngs.length-1; i= i+2){
         points += 'ST_MakePoint('+e._latlngs[i].lng + ', ' + e._latlngs[i].lat + '),';
     }
     points += 'ST_MakePoint('+e._latlngs[e._latlngs.length-1].lng + ', ' + e._latlngs[e._latlngs.length-1].lat + ')';
-    console.log(points);
-}
+    pointsToPolygonOrLine=points;
 
-/* function activeInsertPoint(){
-    if(!isActiveInsertPoint){
-        isActiveInsertPoint=true;
-        map.on('click', onMapClick);
-        $('#map').css( 'cursor', 'url(./img/iconMouse.png), auto    ' );
-    }
-} */
+}
 
 function initFunctionPoints(){
     $('.allPoints').click(function(){
@@ -179,6 +223,34 @@ function initFunctionPolygons(){
             $('.allPolygons').prop('checked',false);
         }
         getPolygons();
+    });
+}
+
+function initFunctionLines(){
+    $('.allLines').click(function(){
+        if($(this).prop('checked')){
+            $('#allLines').prop('checked',false);
+            selectedTypes['Line'].push($(this).data('method'));
+        }else{
+            var a = selectedTypes['Line'].indexOf($(this).data('method'));
+            selectedTypes['Line'].splice(a,1);
+        }
+        getLines();
+    });
+
+    $('#allLines').click(function(){
+        selectedTypes['Line']=[];
+        if($(this).prop('checked')){
+            $('.allLines').prop('checked',true);
+            selectedTypes['Line'].push('getHoles');
+            selectedTypes['Line'].push('getGarbage');
+            selectedTypes['Line'].push('getLights');
+            selectedTypes['Line'].push('getDeadBodies');
+            selectedTypes['Line'].push('getInundation');
+        }else{
+            $('.allLines').prop('checked',false);
+        }
+        getLines();
     });
 }
 

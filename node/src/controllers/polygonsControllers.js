@@ -3,7 +3,24 @@ const fetch = require('node-fetch');
 const pool = require('../conn/conn');
 
 exports.create = (req, res, next) =>{
-
+    if(req.files){
+        var file = req.files.file,
+            filename = file.name;        
+        file.mv('./src/static/uploadPhotos/'+filename, function(error){
+            if(error){
+                console.log(error);
+                res.send(error);
+            }else{
+                pool.query(`INSERT INTO occurrences_polygon( name, type, date, geometry,image ) VALUES ( '${req.body.description}' ,${req.body.type}, statement_timestamp(),ST_GeomFromText('POLYGON((${req.body.points}))', 4326), '${filename}')`,(err, result) =>{
+                    if(err){
+                        res.status(500).send({message:'error Insert', error:err});
+                    }else{
+                        res.status(201).send({message:'insert successful', status:201});
+                    }
+                })
+            }
+        })
+    }
 }
 
 exports.delete = (req, res, next) =>{
