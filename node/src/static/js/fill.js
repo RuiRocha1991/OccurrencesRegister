@@ -16,7 +16,6 @@ function addPolygonToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
         var customOptions ={ 'maxWidth': '200','className' : 'custom'};
-        console.log(data[i].geometry.coordinates[0]);
         var coord='[';
         for(var x=0; x< data[i].geometry.coordinates[0].length;x++){
             if(x>0)
@@ -50,6 +49,7 @@ function removeMarker(){
     if(markers.length>0)
         for(var i=0; i<markers.length; i++){
             map.removeLayer(markers[i]);
+            editableLayers.removeLayer(markers[i]);
         }
         markers=[];
 }
@@ -58,6 +58,7 @@ function removePolygon(){
     if(polygons.length>0)
         for(var i=0; i<polygons.length; i++){
             map.removeLayer(polygons[i]);
+            editableLayers.removeLayer(polygons[i]);
         }
     polygons=[];
 }
@@ -66,6 +67,7 @@ function removeLines(){
     if(lines.length>0)
         for(var i=0; i<lines.length; i++){
             map.removeLayer(lines[i]);
+            editableLayers.removeLayer(lines[i]);
         }
     lines=[];
 }

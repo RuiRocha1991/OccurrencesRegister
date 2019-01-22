@@ -24,11 +24,23 @@ exports.create =(req, res, next) =>{
 }
 
 exports.delete=(req, res, next)=>{
-
+    pool.query(`DELETE FROM occurrences_point WHERE id=${req.body.id}`,(err, result) =>{
+        if(err){
+            res.status(500).send({message:'error Delete', error:err});
+        }else{
+            res.status(200).send({message:'Deleted successful', status : 200});
+        }
+    })
 }
 
 exports.update=(req, res, next)=>{
-    
+    pool.query(`UPDATE public.occurrences_point SET point=ST_SetSRID(ST_MakePoint(${req.body.points}),4326) WHERE id= ${req.body.id};`,(err, result) =>{
+        if(err){
+            res.status(500).send({message:'error Update', error:err});
+        }else{
+            res.status(200).send({message:'Updated successful', status:200});
+        }
+    })  
 }
 
 exports.getHoles = (req, res, next)=>{
