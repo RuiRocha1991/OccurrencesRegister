@@ -86,6 +86,10 @@
 		<styleUrl>#poly-BCA920</styleUrl>
 		<TimeStamp><when>2019-01-21T17:52</when></TimeStamp>
 		<ExtendedData>
+			<Data name="type">
+				<displayName><![CDATA[type]]></displayName>
+				<value><![CDATA[Holes]]></value>
+</Data>
 			<Data name="rating">
 				<value><![CDATA[0]]></value>
 </Data>

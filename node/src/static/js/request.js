@@ -349,10 +349,107 @@ function uploadFile(){
         type: 'POST', 
         dataType:'xml',
         success: function (res) {
+            console.log('___________')
             console.log(res);
+            getFromKML(res)
         },
         error: function (errorMessage) {
             console.log(errorMessage);
         }
     });
+}
+
+function getFromKML(data){
+    var x = data.getElementsByTagName('Placemark')
+     console.log(x)
+    for(var i=0; i<x.length; i++){
+        console.log(x[i].children[0].textContent)
+        console.log(x[i].children[2].textContent)
+        var str = x[i].children[3].textContent.toString()
+        if((x[i].children[3].textContent.search('Inundation') != -1)){
+            console.log('Inundation')
+            var image = getImage(str);
+            console.log(image)
+        } else if(x[i].children[3].textContent.search('DeadBodies') != -1){
+            console.log('DeadBodies')
+            var image = getImage(str);
+            console.log(image)
+            
+        } else if(x[i].children[3].textContent.search('Holes') != -1){
+            console.log('Holes')
+            var image = getImage(str);
+            console.log(image)
+        }else if(x[i].children[3].textContent.search('Lights') != -1){
+            console.log('Lights')
+            var image = getImage(str);
+            console.log(image)
+        }else if(x[i].children[3].textContent.search('Garbage') != -1){
+            console.log('Garbage')
+            var image = getImage(str);
+            console.log(image)
+        }
+        if(x[i].children[3].textContent.search('img'))
+        var stringCoordinates = x[i].children[4].textContent
+        var coord = getCoordinates(stringCoordinates)
+        /* var sqlString = getSqlString(coord) */
+        var sqlString = getSqlStringPoints(coord)
+    }
+    
+
+}
+
+function getImage(str){
+    var imagePath = str.split("="); 
+    imagePath = imagePath[1]
+    imagePath = imagePath.substring(1,imagePath.length)
+    var myPath = imagePath.split('"')
+    myPath = myPath[0]
+    var image = myPath.split('/')
+    image = image[1]
+    return image
+}
+
+function getCoordinates(str){
+    var coord = str.split(",")
+    var newCoord = ''
+    if(coord[0]){
+        newCoord = coord[0].substring(4,coord[0].length)
+        coord[0] = newCoord
+    }
+    for(var i=2; i<coord.length; i= i+2){
+            newCoord = coord[i].substring(2,coord[0].length)
+            coord[i] = newCoord
+    }
+    return coord
+
+}
+
+function getSqlStringPolygon(data){
+    var str = ''
+    for(var i=0; i<data.length-1; i= i+2){
+        if(i+1 != data.length-2){
+            str = str + data[i] + ' ' + data[i+1] + ','
+        }else{
+            str = str + data[i] + ' ' + data[i+1]   
+        } 
+    }
+    console.log(str)
+}
+
+function getSqlStringPolyline(data){
+    var str = ''
+    for(var i=0; i<data.length-1; i= i+2){
+        if(i+1 != data.length-2){
+            str = str + 'ST_MakePoint('+data[i] + ' ,' + data[i+1] + '),'
+        }else{
+            str = str + 'ST_MakePoint('+data[i] + ' ,' + data[i+1] + ')'
+        } 
+    }
+    console.log(str)
+}
+
+function getSqlStringPoints(data){
+    /* ST_MakePoint(-8.847596 ,41.695263) */
+    var str = 'ST_MakePoint(' + data[0] + ' ,' + data[1] + ')'
+    console.log(str)
 }
