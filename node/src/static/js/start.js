@@ -9,6 +9,7 @@ var selectedTypes = new Array();
 selectedTypes['Point']= new Array();
 selectedTypes['Polygon']= new Array();
 selectedTypes['Line']=new Array();
+var circle=null;
 var pointsToPolygonOrLine="";
 
 $(document).ready(function(){
@@ -21,6 +22,8 @@ $(document).ready(function(){
     map.on('locationerror', onLocationError);
     insertToolbarEdit();
     initDrawControl();
+    initDrawControlDeleted();
+    initDrawControlUpdated();
 
     initFunctionPoints();
     initFunctionPolygons();
@@ -42,9 +45,21 @@ $(document).ready(function(){
         removeMarker();
         removePolygon();
         removeLines();
+        clearAllCheckbox();
+        if(circle!=null)
+            editableLayers.removeLayer(circle);
     })
     initModalUploadFile();
 });
+
+function clearAllCheckbox(){
+    $('.allPoints').prop('checked',false);
+    $('.allPolygons').prop('checked',false);
+    $('.allLines').prop('checked',false);
+    $('#allPoints').prop('checked',false);
+    $('#allPolygons').prop('checked',false);
+    $('#allLines').prop('checked',false);
+}
 
 
 function openModalUploadFile(){
@@ -66,7 +81,7 @@ function closeNavLayers(slidenav) {
 }
 
 function initDrawControl(){
-// Initialise the draw control and pass it the FeatureGroup of editable layers
+    // Initialise the draw control and pass it the FeatureGroup of editable layers
     drawControl = new L.Control.Draw(drawPluginOptions);
     map.addControl(drawControl);
     map.on('draw:created', function(e) {
@@ -87,29 +102,52 @@ function initDrawControl(){
         }
         if (type === 'circle') {
             layer.bindPopup('A popup!');   
+            circle=layer;
                 var data ={point: layer._latlng.lng + ', ' + layer._latlng.lat, radius: layer._mRadius};
                 getOccurrencesByPointAndRadius(data);
         }
         editableLayers.addLayer(layer);
     });
+}
 
+function initDrawControlDeleted(){
     map.on('draw:deleted', function(e) {
         var keys= Object.keys(e.layers._layers);
         for(var i=0; i<keys.length; i++ ){
-            console.log(e.layers._layers[keys[i]]);
-        }
-        /*var type = e.layerType,
-            layer = e.layer;
-        if (type === 'marker') {
-            console.log(layer);
-        }
-        if (type === 'polygon') {
-            
-        }
-        if (type === 'polyline') {
-            
-        }
-        editableLayers.addLayer(layer);*/
+            if(e.layers._layers[keys[i]].options.table === 'occurrences_point'){
+                deletePoint({id:e.layers._layers[keys[i]].options.id});
+            }else if(e.layers._layers[keys[i]].options.table === 'occurrences_line'){
+                deleteLine({id:e.layers._layers[keys[i]].options.id});
+            }else if(e.layers._layers[keys[i]].options.table === 'occurrences_polygon'){
+                deletePolygon({id:e.layers._layers[keys[i]].options.id});
+            }
+        }   
+    });
+}
+
+function initDrawControlUpdated(){
+    map.on('draw:edited', function(e) {
+        var keys= Object.keys(e.layers._layers);
+        for(var i=0; i<keys.length; i++ ){
+            if(e.layers._layers[keys[i]].options.table === 'occurrences_point'){
+                updatePoint({id:e.layers._layers[keys[i]].options.id , points: e.layers._layers[keys[i]]._latlng.lng + ', ' + e.layers._layers[keys[i]]._latlng.lat});
+            }else if(e.layers._layers[keys[i]].options.table === 'occurrences_line'){
+                layer=e.layers._layers[keys[i]];
+                var points = "";
+                for(var i=0;i<layer._latlngs.length-1; i++){
+                    points += 'ST_MakePoint('+layer._latlngs[i].lng + ', ' + layer._latlngs[i].lat + '),';
+                }
+                points += 'ST_MakePoint('+layer._latlngs[layer._latlngs.length-1].lng + ', ' + layer._latlngs[layer._latlngs.length-1].lat + ')';
+                updateLine({id:layer.options.id, points:points});
+            }else if(e.layers._layers[keys[i]].options.table === 'occurrences_polygon'){
+                var points = "";
+                for(var x=0;x<e.layers._layers[keys[i]]._latlngs[0].length; x++){
+                    points += e.layers._layers[keys[i]]._latlngs[0][x].lng + ' ' + e.layers._layers[keys[i]]._latlngs[0][x].lat + ', ';
+                }
+                points += e.layers._layers[keys[i]]._latlngs[0][0].lng + ' ' + e.layers._layers[keys[i]]._latlngs[0][0].lat;
+                updatePolygon({id:e.layers._layers[keys[i]].options.id, points:points});
+            }
+        } 
     });
 }
 
@@ -218,6 +256,7 @@ function onMarkerMapClick(e) {
 function onPolygonMapClick(e) {
     pointsToPolygonOrLine="";
     $('#modalCreatePolygon').modal('show');
+
     var points = "";
     for(var i=0;i<e._latlngs[0].length; i= i+2){
         points += e._latlngs[0][i].lng + ' ' + e._latlngs[0][i].lat + ', ';
