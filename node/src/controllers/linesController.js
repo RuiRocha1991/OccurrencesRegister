@@ -1,11 +1,12 @@
 'use strict';
+var fs = require('fs');
 const fetch = require('node-fetch');
 const pool = require('../conn/conn');
 
 exports.create =(req, res, next) =>{
     if(req.files){
         var file = req.files.file,
-            filename = Math.floor((Math.random() * 100000000) + 200000);        
+            filename = Math.floor((Math.random() * 10000000000000) + 20000000000);        
         file.mv('./src/static/uploadPhotos/'+filename, function(error){
             if(error){
                 res.send(error);
@@ -29,6 +30,8 @@ exports.delete=(req, res, next)=>{
         if(err){
             res.status(500).send({message:'error Delete', error:err});
         }else{
+            var filePath = './src/static/uploadPhotos/'+req.body.image; 
+            fs.unlinkSync(filePath);
             res.status(200).send({message:'Deleted successful', status : 200});
         }
     })

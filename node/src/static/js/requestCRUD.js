@@ -90,6 +90,7 @@ function deletePoint(data){
         type: 'DELETE', 
         dataType:'json',
         success: function (res) {
+            console.log(res);
             if(res.status==200)
                 alert('Delete successful')
         },

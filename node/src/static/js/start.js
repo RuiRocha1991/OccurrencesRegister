@@ -116,11 +116,11 @@ function initDrawControlDeleted(){
         var keys= Object.keys(e.layers._layers);
         for(var i=0; i<keys.length; i++ ){
             if(e.layers._layers[keys[i]].options.table === 'occurrences_point'){
-                deletePoint({id:e.layers._layers[keys[i]].options.id});
+                deletePoint({id:e.layers._layers[keys[i]].options.id, image:e.layers._layers[keys[i]].options.image});
             }else if(e.layers._layers[keys[i]].options.table === 'occurrences_line'){
-                deleteLine({id:e.layers._layers[keys[i]].options.id});
+                deleteLine({id:e.layers._layers[keys[i]].options.id,image:e.layers._layers[keys[i]].options.image});
             }else if(e.layers._layers[keys[i]].options.table === 'occurrences_polygon'){
-                deletePolygon({id:e.layers._layers[keys[i]].options.id});
+                deletePolygon({id:e.layers._layers[keys[i]].options.id, image:e.layers._layers[keys[i]].options.image});
             }
         }   
     });

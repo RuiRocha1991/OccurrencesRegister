@@ -7,7 +7,7 @@ function addMarkerToMap(data){
     for(var i=0; i<data.length; i++){
         var customPopup = createPopup(data[i]);
         var customOptions ={ 'maxWidth': '200','className' : 'custom'};
-        markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]],{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map); 
+        markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]],{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_point', image:data[i].properties.image}).bindPopup(customPopup,customOptions).addTo(map); 
         editableLayers.addLayer(markers[markers.length-1]);
     }
 }
@@ -23,7 +23,7 @@ function addPolygonToMap(data){
             coord+=`[${data[i].geometry.coordinates[0][x][1]}, ${data[i].geometry.coordinates[0][x][0]}]`;
         }
         coord+=']';
-        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map);
+        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon', image:data[i].properties.image }).bindPopup(customPopup,customOptions).addTo(map);
         map.fitBounds(polygons[polygons.length-1].getBounds());
         editableLayers.addLayer(polygons[polygons.length-1]);
     }
@@ -40,7 +40,7 @@ function addLineToMap(data){
             coord+=`[${data[i].geometry.coordinates[x][1]}, ${data[i].geometry.coordinates[x][0]}]`;
         }
         coord+=']';
-        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_line' }).bindPopup(customPopup,customOptions).addTo(map);
+        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_line' , image:data[i].properties.image}).bindPopup(customPopup,customOptions).addTo(map);
         editableLayers.addLayer(lines[lines.length-1]);
     }
 }
@@ -83,7 +83,7 @@ function addMarkerToMapFromQueries(data){
         var lng =JSON.parse(data[i].geom).coordinates[0];
         var customPopup = createPopupFromQueries(data[i]);
         var customOptions ={ 'maxWidth': '200','className' : 'custom'}
-        markers[markers.length]=L.marker([lat, lng],{id: data[i].id, table: 'occurrences_point' }).bindPopup(customPopup,customOptions).addTo(map); 
+        markers[markers.length]=L.marker([lat, lng],{id: data[i].id, table: 'occurrences_point', image:data[i].image }).bindPopup(customPopup,customOptions).addTo(map); 
         editableLayers.addLayer(markers[markers.length-1]);
     }
 }
@@ -99,7 +99,7 @@ function addPolygonToMapFromQueries(data){
             coord+=`[${JSON.parse(data[i].geom).coordinates[0][x][1]}, ${JSON.parse(data[i].geom).coordinates[0][x][0]}]`;
         }
         coord+=']';
-        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id, table: 'occurrences_polygon' }).bindPopup(customPopup,customOptions).addTo(map);
+        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id, table: 'occurrences_polygon',image:data[i].image }).bindPopup(customPopup,customOptions).addTo(map);
         map.fitBounds(polygons[polygons.length-1].getBounds());
         editableLayers.addLayer(polygons[polygons.length-1]);
     }
@@ -116,7 +116,7 @@ function addLineToMapFromQueries(data){
             coord+=`[${JSON.parse(data[i].geom).coordinates[x][1]}, ${JSON.parse(data[i].geom).coordinates[x][0]}]`;
         }
         coord+=']';
-        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id, table: 'occurrences_line' }).bindPopup(customPopup,customOptions).addTo(map);
+        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id, table: 'occurrences_line', image:data[i].image}).bindPopup(customPopup,customOptions).addTo(map);
         editableLayers.addLayer(lines[lines.length-1]);
     }
 }

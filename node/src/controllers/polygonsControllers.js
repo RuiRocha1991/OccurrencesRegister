@@ -1,4 +1,5 @@
 'use strict';
+var fs = require('fs');
 const fetch = require('node-fetch');
 const pool = require('../conn/conn');
 
@@ -29,6 +30,8 @@ exports.delete = (req, res, next) =>{
         if(err){
             res.status(500).send({message:'error Delete', error:err});
         }else{
+            var filePath = './src/static/uploadPhotos/'+req.body.image; 
+            fs.unlinkSync(filePath);
             res.status(200).send({message:'Deleted successful', status : 200});
         }
     })
