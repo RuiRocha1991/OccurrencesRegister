@@ -233,9 +233,8 @@
 </div>
 <!-- End Modal insert lines-->
 
-
-<!-- Modal to upload photos-->
-<div id="modalUploadPhotos" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!-- Modal to upload xml-->
+<div id="modalUploadXML" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="border m-3 p-4">
@@ -247,6 +246,15 @@
                     <input type="file" class="custom-file-input" id="inputFile" name="photos">
                     <label class="custom-file-label" for="inputFile">Choose File</label>
                 </div>
+                <div class="input-group mt-3 mb-3">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text" >Photos</span>
+                        </div>
+                        <div class="custom-file">  
+                        <input type="file" class="custom-file-input" id="inputFilePhoto" name="photos" multiple>
+                        <label class="custom-file-label" for="inputFilePhoto">Choose File</label>
+                        </div>
+                </div>
             </div>
             <button class="btn btn-success" id="btn-submitFile">Submit</button>
         <div class="modal-footer mt-2">
@@ -256,7 +264,7 @@
       </div>
     </div>
 </div>
-<!-- End Modal insert lines-->
+<!-- End Modal upload xml -->
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -266,7 +274,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
     <script src="js/fill.js"></script>
-    <script src="js/request.js"></script>
     <script src="js/start.js"></script>
+    <script src="js/readXML.js"></script>
+    <script src="js/requestCRUD.js"></script>
+    <script src="js/requestGET.js"></script>
+
 </body>
 </html>

@@ -63,12 +63,13 @@ function clearAllCheckbox(){
 
 
 function openModalUploadFile(){
-    $('#modalUploadPhotos').modal('show');
+    $('#modalUploadXML').modal('show');
 }
 
 function initModalUploadFile(){
     $('#btn-submitFile').click(function(){
         uploadFile();
+        $('#modalUploadXML').modal('hide');
     });
 }
 
@@ -242,6 +243,7 @@ function initVariablesModalInsertLine(){
                 data.append('description', description);
                 data.append('type', typeOccurrence);
                 data.append('points', pointsToPolygonOrLine);
+                console.log(data);
                 insertNewLine(data);                
             }
         }

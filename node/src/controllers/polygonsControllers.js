@@ -5,13 +5,14 @@ const pool = require('../conn/conn');
 exports.create = (req, res, next) =>{
     if(req.files){
         var file = req.files.file,
-            filename = file.name;        
+            filename = Math.floor((Math.random() * 100000000) + 200000);        
         file.mv('./src/static/uploadPhotos/'+filename, function(error){
             if(error){
                 console.log(error);
                 res.send(error);
             }else{
-                pool.query(`INSERT INTO occurrences_polygon( name, type, date, geometry,image ) VALUES ( '${req.body.description}' ,${req.body.type}, statement_timestamp(),ST_GeomFromText('POLYGON((${req.body.points}))', 4326), '${filename}')`,(err, result) =>{
+                var date = req.body.date ? `to_date('${req.body.date}','YYYYMMDD')` : 'statement_timestamp()';
+                pool.query(`INSERT INTO occurrences_polygon( name, type, date, geometry,image ) VALUES ( '${req.body.description}' ,${req.body.type}, ${date},ST_GeomFromText('POLYGON((${req.body.points}))', 4326), '${filename}')`,(err, result) =>{
                     if(err){
                         res.status(500).send({message:'error Insert', error:err});
                     }else{
