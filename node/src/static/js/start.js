@@ -11,6 +11,7 @@ selectedTypes['Polygon']= new Array();
 selectedTypes['Line']=new Array();
 var circle=null;
 var pointsToPolygonOrLine="";
+var temp=new Array();
 
 $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18, zoomControl:false});
@@ -45,6 +46,7 @@ $(document).ready(function(){
         removeMarker();
         removePolygon();
         removeLines();
+        clearTemp();
         clearAllCheckbox();
         if(circle!=null)
             editableLayers.removeLayer(circle);
@@ -107,6 +109,7 @@ function initDrawControl(){
                 var data ={point: layer._latlng.lng + ', ' + layer._latlng.lat, radius: layer._mRadius};
                 getOccurrencesByPointAndRadius(data);
         }
+        temp.push(layer);
         editableLayers.addLayer(layer);
     });
 }

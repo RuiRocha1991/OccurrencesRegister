@@ -45,6 +45,13 @@ function addLineToMap(data){
     }
 }
 
+function clearTemp(){
+    if(temp.length>0)
+        temp.forEach(element => {
+            editableLayers.removeLayer(element);
+        });
+}
+
 function removeMarker(){
     if(markers.length>0)
         for(var i=0; i<markers.length; i++){
