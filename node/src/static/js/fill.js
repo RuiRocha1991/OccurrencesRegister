@@ -9,6 +9,7 @@ function addMarkerToMap(data){
         var customOptions ={ 'maxWidth': '200','className' : 'custom'};
         markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]],{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_point', image:data[i].properties.image}).bindPopup(customPopup,customOptions).addTo(map); 
         editableLayers.addLayer(markers[markers.length-1]);
+        clusterPoints.addLayer(markers[markers.length-1]);
     }
 }
 
@@ -92,6 +93,7 @@ function addMarkerToMapFromQueries(data){
         var customOptions ={ 'maxWidth': '200','className' : 'custom'}
         markers[markers.length]=L.marker([lat, lng],{id: data[i].id, table: 'occurrences_point', image:data[i].image }).bindPopup(customPopup,customOptions).addTo(map); 
         editableLayers.addLayer(markers[markers.length-1]);
+        clusterPoints.addLayer(markers[markers.length-1]);
     }
 }
 
