@@ -12,6 +12,7 @@ exports.post =(req, res, next)=>{
                 var FILE = path.join(__dirname, '../../xml.kml');
                 var decodedXMLStream = fs.createReadStream(FILE).pipe(xmlReader.createStream());
                 decodedXMLStream.on('data', function(xmlStr) {
+                    fs.unlinkSync('./xml.kml');
                     res.send(xmlStr);
                 });
             }
