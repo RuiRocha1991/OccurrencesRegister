@@ -12,6 +12,7 @@ selectedTypes['Line']=new Array();
 var circle=null;
 var pointsToPolygonOrLine="";
 var temp=new Array();
+var clusterPoints;
 
 $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18, zoomControl:false});
@@ -19,8 +20,10 @@ $(document).ready(function(){
     map.locate({setView: true, maxZoom: 20});
     editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
+    clusterPoints = L.markerClusterGroup();
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
+    map.addLayer(clusterPoints);
     insertToolbarEdit();
     initDrawControl();
     initDrawControlDeleted();
