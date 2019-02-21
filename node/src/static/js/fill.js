@@ -46,6 +46,58 @@ function addLineToMap(data){
     }
 }
 
+
+/******************************************************** */
+
+function addMarkerToCluster(data){
+    for(var i=0; i<data.length; i++){
+        var customPopup = createPopup(data[i]);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        markers[markers.length]=L.marker([data[i].geometry.coordinates[1], data[i].geometry.coordinates[0]],{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_point', image:data[i].properties.image}).bindPopup(customPopup,customOptions).addTo(map); 
+        editableLayers.addLayer(markers[markers.length-1]);
+        clusterPoints.addLayer(markers[markers.length-1]);
+        pointsCluster.addLayer(markers[markers.length-1]);
+    }
+}
+
+function addPolygonToCluster(data){
+    for(var i=0; i<data.length; i++){
+        var customPopup = createPopup(data[i]);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        var coord='[';
+        for(var x=0; x< data[i].geometry.coordinates[0].length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${data[i].geometry.coordinates[0][x][1]}, ${data[i].geometry.coordinates[0][x][0]}]`;
+        }
+        coord+=']';
+        polygons[polygons.length]=L.polygon(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_polygon', image:data[i].properties.image }).bindPopup(customPopup,customOptions).addTo(map);
+        polygonCluster.addLayer(polygons[polygons.length-1]);
+        map.fitBounds(polygons[polygons.length-1].getBounds());
+        editableLayers.addLayer(polygons[polygons.length-1]);
+    }
+}
+
+function addLineToCluster(data){
+    for(var i=0; i<data.length; i++){
+        var customPopup = createPopup(data[i]);
+        var customOptions ={ 'maxWidth': '200','className' : 'custom'};
+        var coord='[';
+        for(var x=0; x<data[i].geometry.coordinates.length;x++){
+            if(x>0)
+                coord +=', ';
+            coord+=`[${data[i].geometry.coordinates[x][1]}, ${data[i].geometry.coordinates[x][0]}]`;
+        }
+        coord+=']';
+        lines[lines.length]=L.polyline(JSON.parse(coord),{id: data[i].id.replace( /^\D+/g, ''), table: 'occurrences_line' , image:data[i].properties.image}).bindPopup(customPopup,customOptions).addTo(map);
+        editableLayers.addLayer(lines[lines.length-1]);
+        linesCluster.addLayer(lines[lines.length-1]);
+
+    }
+}
+
+
+/*********************************************** */
 function clearTemp(){
     if(temp.length>0)
         temp.forEach(element => {

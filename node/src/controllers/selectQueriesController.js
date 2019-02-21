@@ -1,5 +1,6 @@
 'use strict';
 const pool = require('../conn/conn');
+const fetch = require('node-fetch');
 
 exports.getPointsByPointAndRadius = (req, res, next)=>{
     pool.query(`SELECT occurrences_point.name, occurrences_point.type, occurrences_point.date, occurrences_point.id, occurrences_point.image,  ST_AsGeoJSON(occurrences_point.point) as geom FROM occurrences_point WHERE ST_Within(occurrences_point.point,ST_Transform(ST_Buffer(ST_Transform(ST_SetSRID(ST_MakePoint(${req.query.point}), 4326), 3857), ${req.query.radius}), 4326))`, (error, result)=>{
@@ -109,4 +110,22 @@ exports.getLocalityByMyLocation = (req, res, next)=>{
             res.status(200).send({status:200, result: result.rows});
         }
     })
+}
+
+exports.getAllRegions = (req, res, next)=>{
+
+    fetch('http://localhost:9090/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=IS_Occurrence_Register%3ACont_AAD_CAOP2018&outputFormat=application%2Fjson&format_options=callback%3AgetJson&fbclid=IwAR2mAIr_eyv_DsKtas5P0VpLXOvgcKx0MzEjBRcyqlGSVGYKLIiPz1JeWn0',
+    {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        method: "GET"
+    })
+    .then(data => data.json())
+    .then(json => res.status(200).send(json))
+    .catch(error => res.status(500).send({ 
+        message:'Falha ao processar requisição',
+        error: error
+    }))
 }

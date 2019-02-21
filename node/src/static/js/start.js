@@ -14,10 +14,18 @@ var pointsToPolygonOrLine="";
 var temp=new Array();
 var clusterPoints;
 
+var pointsCluster;
+var linesCluster;
+var polygonCluster;
+var regionsCluster;
+
+
 $(document).ready(function(){
     map= L.map('map',{center: [41.725398, -8.806156], zoom: 18, zoomControl:false});
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
     map.locate({setView: true, maxZoom: 20});
+    initLayerControl()
+   
     editableLayers = new L.FeatureGroup();
     map.addLayer(editableLayers);
     clusterPoints = L.markerClusterGroup();
@@ -53,9 +61,70 @@ $(document).ready(function(){
         clearAllCheckbox();
         if(circle!=null)
             editableLayers.removeLayer(circle);
+        
+        map.removeLayer(clusterPoints);
     })
     initModalUploadFile();
+    
 });
+
+function fillSelectedTypes(){
+    selectedTypes['Point'].push('getHoles');
+    selectedTypes['Point'].push('getLights');
+    selectedTypes['Point'].push('getDeadBodies');
+    selectedTypes['Point'].push('getInundation');
+    selectedTypes['Point'].push('getGarbage');
+    selectedTypes['Polygon'].push('getHoles');
+    selectedTypes['Polygon'].push('getGarbage');
+    selectedTypes['Polygon'].push('getLights');
+    selectedTypes['Polygon'].push('getDeadBodies');
+    selectedTypes['Polygon'].push('getInundation');
+    selectedTypes['Line'].push('getHoles');
+    selectedTypes['Line'].push('getGarbage');
+    selectedTypes['Line'].push('getLights');
+    selectedTypes['Line'].push('getDeadBodies');
+    selectedTypes['Line'].push('getInundation');
+}
+
+function initLayerControl(){
+    fillSelectedTypes();
+    pointsCluster= L.markerClusterGroup();
+    linesCluster= L.markerClusterGroup();
+    polygonCluster= L.markerClusterGroup();
+    regionsCluster= L.markerClusterGroup();
+
+    getPointsToClusterControl();
+    getPolygonsToClusterControl();
+    getLinesToClusterControl();
+    getAllRegionsToCluster();
+
+
+    var streetsUrl = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var streets = L.tileLayer(streetsUrl, 
+    {
+        id: 'mapbox.streets', 
+        attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'}
+    ).addTo(map);
+
+    var link = 'https://api.mapbox.com/styles/v1/rocharui/cjsa6jpfd35f21flqojs681ip.html?fresh=true&title=true&access_token=pk.eyJ1Ijoicm9jaGFydWkiLCJhIjoiY2pveTY0cmh3MjhmdDNra2ZrbXcxcHpiMiJ9.ByPMqT07PUxafU1S_oNlTw#13.0/33.750013/-118.410600/0'
+    var terrain = L.tileLayer(link);
+
+
+
+    var baseMaps = {
+    "Streets": streets,
+    "Terrain":terrain
+    };
+
+    var overlayMaps = {
+        "Points": pointsCluster,
+        "Lines":linesCluster,
+        "Polygon":polygonCluster,
+        "Regions": regionsCluster
+    };
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+}
 
 function clearAllCheckbox(){
     $('.allPoints').prop('checked',false);

@@ -14,5 +14,7 @@ router.get('/getLinesByDate', controller.getLinesByDate);
 router.get('/getPolygonsByDate', controller.getPolygonsByDate);
 router.get('/getLocalities', controller.getLocalities);
 router.get('/getLocalityByMyLocation', controller.getLocalityByMyLocation);
+router.get('/getAllRegions', controller.getAllRegions);
+
 
 module.exports=router; 

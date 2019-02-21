@@ -52,6 +52,60 @@ function getLines(){
     }
 }
 
+function getPointsToClusterControl(){
+    removeMarker();
+    for(var i=0; i< selectedTypes['Point'].length; i++){
+        $.ajax({
+            url: 'http://localhost:3000/points/'+selectedTypes['Point'][i],
+            type:'get',
+            dataType:'json',
+            contentType:'application/json',
+            success: function(response){
+                addMarkerToCluster(response.features);
+            },
+            error:function(error){
+                console.log(error);
+            }
+        })
+    }
+}
+
+function getPolygonsToClusterControl(){
+    removePolygon();
+    for(var i=0; i< selectedTypes['Polygon'].length; i++){
+        $.ajax({
+            url: 'http://localhost:3000/polygons/'+selectedTypes['Polygon'][i],
+            type:'get',
+            dataType:'json',
+            contentType:'application/json',
+            success: function(response){
+                addPolygonToCluster(response.features);
+            },
+            error:function(error){
+                console.log(error);
+            }
+        })
+    }
+}
+
+function getLinesToClusterControl(){
+    removeLines();
+    for(var i=0; i< selectedTypes['Line'].length; i++){
+        $.ajax({
+            url: 'http://localhost:3000/lines/'+selectedTypes['Line'][i],
+            type:'get',
+            dataType:'json',
+            contentType:'application/json',
+            success: function(response){
+                addLineToCluster(response.features);
+            },
+            error:function(error){
+                console.log(error);
+            }
+        })
+    }
+}
+
 function getPointsByPointAndRadius(data){
     $.ajax({
         url:'http://localhost:3000/queries/getPointsByPointAndRadius',
@@ -274,3 +328,25 @@ function getPolygonsByLocality(data){
         }
     });
 }
+
+function getAllRegionsToCluster(){
+    $.ajax({
+        url:'http://localhost:3000/queries/getAllRegions',
+        type:'get',
+        dataType:'json',
+        contentType:'application/json',
+        success: function (res) {
+            L.geoJSON(res, {
+                onEachFeature: function(feature, layer){
+                    layer.bindPopup("<p>"+ decodeURIComponent(escape(feature.properties.Freguesia)) +"</p>");
+                    layer.addTo(regionsCluster);
+                }
+            })
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+        }
+    });
+}
+
+
